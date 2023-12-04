@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import homeImage from 'public/images/home.jpg'
 import Hero from '@/components/Hero'
 
