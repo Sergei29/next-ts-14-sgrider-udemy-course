@@ -1,9 +1,21 @@
-const Home = () => {
+import Image from 'next/image'
+
+import homeImage from 'public/images/home.jpg'
+
+const HomePage = () => {
   return (
     <>
-      <h1 className="text-center text-3xl underline font-bold">Hi</h1>
+      Home Page
+      <div className="absolute -z-10 inset-0">
+        <Image
+          src={homeImage}
+          alt="car factory"
+          fill
+          className="object-cover"
+        />
+      </div>
     </>
   )
 }
 
-export default Home
+export default HomePage
