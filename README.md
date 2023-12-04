@@ -1,3 +1,9 @@
+## Branches
+- `main`, initial create next app setup, reset
+- `corp-1`, static pages, header navbar, hero section on each page
+- `snippets-app-2`, save code snippets app, CRUD for code snippets, PRISMA, SQLITE
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
