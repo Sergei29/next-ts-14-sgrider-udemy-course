@@ -1,6 +1,7 @@
-import { db } from '@/lib/db'
-import { IPageProps } from '@/types'
+import { notFound } from 'next/navigation'
 import SnippetControlButtons from '@/components/SnippetControlButtons'
+import { IPageProps } from '@/types'
+import { db } from '@/lib/db'
 
 const SnippetPage = async ({ params }: IPageProps<{ id: string }>) => {
   const snippetDetails = await db.snippet.findUnique({
@@ -10,7 +11,7 @@ const SnippetPage = async ({ params }: IPageProps<{ id: string }>) => {
   })
 
   if (!snippetDetails) {
-    return <p className="mt-8">Not found</p>
+    return notFound()
   }
 
   return (

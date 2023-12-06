@@ -16,7 +16,7 @@ const NewSnippetPage = ({
       throw new Error('Form values missing.')
     }
 
-    const newSnippet = await db.snippet.create({
+    await db.snippet.create({
       data: {
         title,
         code,
