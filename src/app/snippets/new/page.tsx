@@ -23,8 +23,6 @@ const NewSnippetPage = ({
       },
     })
 
-    console.log('newSnippet :>> ', newSnippet)
-
     redirect('/')
   }
 
