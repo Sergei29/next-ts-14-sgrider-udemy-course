@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import { db } from '@/lib/db'
 
 const HomePage = async () => {
@@ -5,21 +7,29 @@ const HomePage = async () => {
 
   return (
     <>
-      <h1 className="my-4 text-3xl font-bold text-center underline">
-        Home page
-      </h1>
-      <ul className="flex gap-4 justify-center">
+      <div className="flex gap-4 items-center my-8">
+        <h1 className="my-4 text-3xl font-bold text-center underline">
+          Snippets
+        </h1>
+        <Link
+          href="/snippets/new"
+          className="border border-green-700 bg-green-400 hover:bg-green-500 px-1 py-2 w-[50px] h-[50px] flex justify-center items-center font-bold rounded-full"
+        >
+          <span>new</span>
+        </Link>
+      </div>
+      <div className="flex gap-4">
         {(!snippets || snippets.length === 0) && <li>No snippets</li>}
-        {snippets.map(({ id, title, code }) => (
-          <li
+        {snippets.map(({ id, title }) => (
+          <Link
+            href={`/snippets/${id}`}
             key={id}
-            className="border border-green-700 bg-green-400 rounded px-2 py-4"
+            className="border border-green-700 bg-green-400 hover:bg-green-500 rounded px-1 py-2"
           >
-            <h3 className="my-2 font-semibold text-xl capitalize">{title}</h3>
-            <code className="p-2 bg-slate-200 rounded">{code}</code>
-          </li>
+            <h3 className="font-semibold text-xl capitalize">{title}</h3>
+          </Link>
         ))}
-      </ul>
+      </div>
     </>
   )
 }
