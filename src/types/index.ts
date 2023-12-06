@@ -6,8 +6,13 @@ export interface IPageProps<
   searchParams: Q
 }
 
-export interface ISnippet {
+export interface IEntity {
   id: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface ISnippet extends IEntity {
   title: string
   code: string
 }

@@ -19,7 +19,7 @@ const HomePage = async () => {
         </Link>
       </div>
       <div className="flex gap-4">
-        {(!snippets || snippets.length === 0) && <li>No snippets</li>}
+        {(!snippets || snippets.length === 0) && <p>No snippets</p>}
         {snippets.map(({ id, title }) => (
           <Link
             href={`/snippets/${id}`}
