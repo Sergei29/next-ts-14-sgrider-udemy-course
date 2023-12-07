@@ -12,15 +12,15 @@ export const createSnippet = async (
   formData: FormData,
 ) => {
   try {
-    const title = formData.get('title') as string
-    const code = formData.get('code') as string
+    const title = formData.get('title')
+    const code = formData.get('code')
 
-    if (!title || !code) {
-      throw new Error('Form values missing')
+    if (typeof title !== 'string' || title.length < 3) {
+      throw new Error('Title must be at least 3 characters long')
     }
 
-    if (title.length < 3) {
-      throw new Error('Title must at least 3 characters long')
+    if (typeof code !== 'string' || code.length < 10) {
+      throw new Error('Code must be at least 10 characters long')
     }
 
     await db.snippet.create({

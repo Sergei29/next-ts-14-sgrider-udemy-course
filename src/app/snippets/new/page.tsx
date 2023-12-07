@@ -38,13 +38,13 @@ const NewSnippetPage = ({}: IPageProps) => {
       </fieldset>
       <button
         type="submit"
-        className=" my-4 px-4 py-2 rounded bg-blue-200 w-full"
+        className=" my-4 px-4 py-2 rounded border border-green-700 bg-green-500 hover:bg-green-600 w-full"
       >
         Create
       </button>
       <div>
         {formState.message && (
-          <p className="my-4 px-4 py-2 bg-red-600 text-white font-semibold text-center">
+          <p className="my-4 px-4 py-2 bg-red-600 border-2 border-red-800 text-white font-semibold text-center rounded">
             {formState.message}
           </p>
         )}

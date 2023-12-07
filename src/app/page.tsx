@@ -13,7 +13,7 @@ const HomePage = async () => {
         </h1>
         <Link
           href="/snippets/new"
-          className="border border-green-700 bg-green-400 hover:bg-green-500 px-1 py-2 w-[50px] h-[50px] flex justify-center items-center font-bold rounded-full"
+          className="border border-green-700 bg-green-400 hover:bg-green-500 px-1 py-2 w-[100px] h-[50px] flex justify-center items-center font-bold rounded-full"
         >
           <span>new</span>
         </Link>
