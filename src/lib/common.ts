@@ -24,3 +24,6 @@ export const validateSnippetEdit = {
     return true
   },
 }
+
+export const getErrorMessage = (error: unknown) =>
+  error instanceof Error ? error.message : (error as any).toString()

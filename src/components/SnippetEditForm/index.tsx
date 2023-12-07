@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, ChangeEvent, startTransition } from 'react'
+import React, { useState, ChangeEvent } from 'react'
 import { Editor, OnChange } from '@monaco-editor/react'
 
 import { updateSnippet } from '@/lib/serverActions'
@@ -42,7 +42,7 @@ const SnippetEditForm = ({ snippet }: IProps): JSX.Element => {
   // const handleClick = () => {
   //   // the transition here is used to ensure the updates on DB are happenning before
   //   // we navigate to another page, as what this server action does.
-  //   startTransition(() => {
+  //   React.startTransition(() => {
   //     updateSnippet(snippet.id, snippetData)
   //   })
   // }

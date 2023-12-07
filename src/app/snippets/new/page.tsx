@@ -1,11 +1,18 @@
-import { createSnippet } from '@/lib/serverActions'
-import { IPageProps } from '@/types'
+'use client'
 
-const NewSnippetPage = ({
-  searchParams,
-}: IPageProps<{}, { error?: string }>) => {
+import { useFormState } from 'react-dom'
+
+import { createSnippet } from '@/lib/serverActions'
+import { IPageProps, IFormState } from '@/types'
+
+const NewSnippetPage = ({}: IPageProps) => {
+  const [formState, formAction] = useFormState<IFormState, FormData>(
+    createSnippet,
+    { message: '' },
+  )
+
   return (
-    <form action={createSnippet} className="max-w-[350px] mx-auto">
+    <form action={formAction} className="max-w-[350px] mx-auto">
       <h3 className="font-bold m-3">Create a snippet</h3>
       <fieldset className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
@@ -36,9 +43,9 @@ const NewSnippetPage = ({
         Create
       </button>
       <div>
-        {searchParams.error && (
+        {formState.message && (
           <p className="my-4 px-4 py-2 bg-red-600 text-white font-semibold text-center">
-            {searchParams.error}
+            {formState.message}
           </p>
         )}
       </div>

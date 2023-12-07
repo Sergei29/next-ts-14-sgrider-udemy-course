@@ -4,6 +4,16 @@
 - `snippets-app-2`, save code snippets app, CRUD for code snippets, PRISMA, SQLITE
 
 
+### Error handling in Server forms
+- the whole point of server forms - is that they can work in browser without any JS;
+- the forms are sending `FormData` into server action
+- we need somehow a way to communicate from server action back to browser page if something is wrong with submit
+- `React-DOM` ( not `react` ), contains a hook called `useFormState`, specifically for this, this specific hook
+can run on server even if there is no JS code on browser. ( the client component still renders on server first - this is where this hook will run )
+- `useFormState` will render in the form component and will have a certain form state, then when the for maction is called with `FormData` - it all will go to server, is anything wrong with submit on server - it will send back to the form page this form state, the `useFormState` will receive the updated form state and will re-render form UI showing the error.
+- the example use of `useFormState` can see at `src/app/snippets/new/page.tsx`.
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

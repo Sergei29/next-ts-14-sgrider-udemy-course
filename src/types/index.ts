@@ -8,6 +8,10 @@ export interface IPageProps<
   searchParams: Q
 }
 
+export interface IFormState {
+  message: string
+}
+
 export type SnippetFormValues = Pick<ISnippet, 'title' | 'code'>
 
 export { ISnippet }

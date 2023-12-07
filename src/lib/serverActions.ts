@@ -3,24 +3,35 @@
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 
-import { SnippetFormValues } from '@/types'
-import { validateSnippetEdit } from '@/lib/common'
+import { SnippetFormValues, IFormState } from '@/types'
+import { validateSnippetEdit, getErrorMessage } from '@/lib/common'
 import { db } from '@/lib/db'
 
-export const createSnippet = async (formData: FormData) => {
-  const title = formData.get('title') as string
-  const code = formData.get('code') as string
+export const createSnippet = async (
+  formState: IFormState,
+  formData: FormData,
+) => {
+  try {
+    const title = formData.get('title') as string
+    const code = formData.get('code') as string
 
-  if (!title || !code) {
-    throw new Error('Form values missing.')
+    if (!title || !code) {
+      throw new Error('Form values missing')
+    }
+
+    if (title.length < 3) {
+      throw new Error('Title must at least 3 characters long')
+    }
+
+    await db.snippet.create({
+      data: {
+        title,
+        code,
+      },
+    })
+  } catch (error) {
+    return { message: getErrorMessage(error) }
   }
-
-  await db.snippet.create({
-    data: {
-      title,
-      code,
-    },
-  })
 
   revalidatePath('/')
   redirect('/')
