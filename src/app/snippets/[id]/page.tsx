@@ -21,12 +21,12 @@ const SnippetPage = async ({ params }: IPageProps<{ id: string }>) => {
           {snippetDetails.title}
         </h1>
         <div className="flex gap-2 items-center">
-          <SnippetControlButtons />
+          <SnippetControlButtons id={params.id} />
         </div>
       </div>
-      <code className="bg-gray-300 rounded p-2 min-h-[30vh] flex justify-center items-center">
-        {snippetDetails.code}
-      </code>
+      <pre className="bg-gray-300 rounded p-2 min-h-[30vh] flex justify-center items-center">
+        <code>{snippetDetails.code}</code>
+      </pre>
     </div>
   )
 }

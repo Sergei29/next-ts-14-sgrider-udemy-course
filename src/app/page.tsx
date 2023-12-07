@@ -24,7 +24,7 @@ const HomePage = async () => {
           <Link
             href={`/snippets/${id}`}
             key={id}
-            className="border border-green-700 bg-green-400 hover:bg-green-500 rounded px-1 py-2"
+            className="border border-green-700 bg-green-400 hover:bg-green-500 rounded px-1 py-2 min-w-[200px]"
           >
             <h3 className="font-semibold text-xl capitalize">{title}</h3>
           </Link>
