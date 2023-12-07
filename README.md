@@ -44,6 +44,62 @@ can run on server even if there is no JS code on browser. ( the client component
 - `useFormState` will render in the form component and will have a certain form state, then when the for maction is called with `FormData` - it all will go to server, is anything wrong with submit on server - it will send back to the form page this form state, the `useFormState` will receive the updated form state and will re-render form UI showing the error.
 - the example use of `useFormState` can see at branch `snippets-app-2`, `src/app/snippets/new/page.tsx`.
 
+```ts
+export const createProfileAction = async (
+  formState: { message: string },
+  formData: FormData,
+) => {
+  'use server'
+
+  try {
+    const firstname = formData.get('firstname') as string
+    const lastname = formData.get('lastname') as string
+
+    if (!firstname || !lastname) {
+      throw new Error('Form values missing')
+    }
+
+    await db.profile.create({
+      data: {
+        firstname,
+        lastname,
+      },
+    })
+  } catch (error) {
+    return { message: getErrorMessage(error) }
+  }
+
+  revalidatePath('/')
+  redirect('/')
+}
+```
+#### Then server action imported in Form component together with the `useFormState` :
+
+```tsx
+'use client'
+
+import { useFormState } from 'react-dom'
+import { createProfileAction } from '@/lib/serverActions'
+
+const CreateForm = () => {
+ const [formState, formAction] = useFormState<{message: string}, FormData>(
+    createProfileAction, // this is the server action we created above
+    { message: '' }, // this is initial state value
+  );
+
+  return (
+    <form action={formAction}>
+      <input type="text" name="firstname"/>
+      <input type="text" name="lastname"/>
+      <button type="submit">submit</button>
+      {
+        formState.message && <p className="text-red-700">{formState.message}</p>
+      }
+    </form>
+  )
+
+}
+```
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
