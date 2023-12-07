@@ -1,3 +1,5 @@
+import type { Snippet as ISnippet } from '@prisma/client'
+
 export interface IPageProps<
   P = Record<string, string>,
   Q = Record<string, string>,
@@ -6,13 +8,6 @@ export interface IPageProps<
   searchParams: Q
 }
 
-export interface IEntity {
-  id: string
-  createdAt: Date
-  updatedAt: Date
-}
+export type SnippetFormValues = Pick<ISnippet, 'title' | 'code'>
 
-export interface ISnippet extends IEntity {
-  title: string
-  code: string
-}
+export { ISnippet }

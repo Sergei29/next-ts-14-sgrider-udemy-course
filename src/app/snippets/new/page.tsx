@@ -1,31 +1,9 @@
-import { redirect } from 'next/navigation'
-
+import { createSnippet } from '@/lib/serverActions'
 import { IPageProps } from '@/types'
-import { db } from '@/lib/db'
 
 const NewSnippetPage = ({
   searchParams,
 }: IPageProps<{}, { error?: string }>) => {
-  const createSnippet = async (formData: FormData) => {
-    'use server'
-
-    const title = formData.get('title') as string
-    const code = formData.get('code') as string
-
-    if (!title || !code) {
-      throw new Error('Form values missing.')
-    }
-
-    await db.snippet.create({
-      data: {
-        title,
-        code,
-      },
-    })
-
-    redirect('/')
-  }
-
   return (
     <form action={createSnippet} className="max-w-[350px] mx-auto">
       <h3 className="font-bold m-3">Create a snippet</h3>

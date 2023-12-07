@@ -1,10 +1,15 @@
 import Link from 'next/link'
 
+// import { deleteSnippet } from '@/lib/serverActions'
+import DeleteButton from './DeleteButton'
+
 interface IProps {
   id: string
 }
 
 const SnippetControlButtons = ({ id }: IProps): JSX.Element => {
+  // const formAction = deleteSnippet.bind(null, id)
+
   return (
     <>
       <Link
@@ -13,9 +18,18 @@ const SnippetControlButtons = ({ id }: IProps): JSX.Element => {
       >
         edit
       </Link>
-      <button className=" border border-red-800 bg-red-500 hover:bg-red-600 text-center px-2 py-1 min-w-[100px] rounded">
-        delete
-      </button>
+
+      {/* This can be an alternative if we want to use delete button directly from server component */}
+      {/* <form action={formAction}>
+        <button
+          type="submit"
+          className="border border-red-800 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-center px-2 py-1 min-w-[100px] rounded"
+        >
+          delete
+        </button>
+      </form> */}
+
+      <DeleteButton id={id} />
     </>
   )
 }
