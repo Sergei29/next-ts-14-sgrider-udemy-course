@@ -3,6 +3,16 @@ import SnippetControlButtons from '@/components/SnippetControlButtons'
 import { IPageProps } from '@/types'
 import { db } from '@/lib/db'
 
+export const generateStaticParams = async () => {
+  const snippets = await db.snippet.findMany({
+    select: {
+      id: true,
+    },
+  })
+
+  return snippets
+}
+
 const SnippetPage = async ({ params }: IPageProps<{ id: string }>) => {
   const snippetDetails = await db.snippet.findUnique({
     where: {
