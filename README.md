@@ -101,6 +101,30 @@ const CreateForm = () => {
 }
 ```
 
+## Caching
+- Data Fetch Cache: responses from network requests made by `fetch` api, stored and reused across requests
+- Router Cache: 'soft' navigation between the pages, are cached in the browser and reused when a user revisits a page
+- Request Memoization: eg. make 2 or more `GET` requests using `fetch` during a user's request to your server? Only one `GET` is actually executed
+- Full Route Cache: AT BUILD TIME(only), NEXT decides if your route is `static` OR `dynamic`. IF it is `static`, the page result is rendered and STORED, in production user is served this stored result.
+- ○  (Static): NEXT sees that this route contains only static data, so NEXT will render it at BUILD time, cache it, and serve this cached version eevery time a user is visiting that page
+- ●  (SSG): Statically generated page. NEXT will render it at BUILD time, cache it, and serve this cached version eevery time a user is visiting that page
+- λ  (Dynamic): NEXT sees this route contains dynamic data, so NEXT will render this page EVERY time user visits it.
+
+### What makes a page `dynamic` ?
+- using a dynamic route: `src/app/snippets/[id]/page.tsx`, `src/app/snippets/[id]/edit/page.tsx`, unless we pre-generate static params.
+- calling a `dynamic function` or referencing a `dynamic variable` whe nyour route is rendered: `cookies.set()`, `cookies.delete()`, `props.searchParams`, `useSearchParams`
+- assigning a special 'route segment config' options: `export const dynamic = 'force-dynamic'`, `export const revalidate = 0`
+- calling `fetch` and opt-out caching: `fetch(url, { next: { revalidate: 0 }})`
+
+### Several ways to control caching:
+- time based revalidation
+- on-demand revalidation
+- disable caching completely
+
+### Enable caching for dynamic routes, `generateStaticparams()`
+- at BUILD time: NEXT finds all provided routes in your dynamic segment from `generateStaticparams()`, and at BUILD time renders and caches each of them.
+- when user requests one of these dynamic routes - NEXT serves these cached pages
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
