@@ -127,6 +127,47 @@ const CreateForm = () => {
 - when user requests one of these dynamic routes - NEXT serves these cached pages
 
 
+## Authentication with Next-auth
+
+Federated login flow:
+
+![next auth flow](./next_auth_federated_login_flow.png)
+
+
+## Recommended Initial Design
+1. Identify and list all different routes you want your App to have, AND data that each route should show. For example - write a table with columns ( `Page name`, `Pathname`, `Data to show` ), then page per page fill it in.
+
+| Page name | Pathname | Data to show |
+| :---:   | :---: | :---: |
+| Homepage | "/"   | Many posts, Many topics|
+| Topic show | "/topics/[slug]" | A single topic and many posts |
+| Create post | "/topics/[slug]/posts/new" | A single topic and many posts |
+| Post show | "/topics/[slug]/posts/[postId]" | Single post, and many comments |
+
+2. Make 'path helper' functions, example:
+```ts
+const paths = {
+  homepage: ()=> "/",
+  postCreatePath: (slug:string) => `/topics/${slug}/posts/new`,
+  postShowPath:  (slug:string, postId: string) => `/topics/${slug}/posts/${postId}`
+}
+```
+3. Create your routing folder structure `pageNameDir/page.tsx` based on step 1.
+
+4. Identify places where data changes in your app. Example: when user can click some action or submit data that causes data to change.
+( - create topic form, - create post form, - create post comment form )
+
+5. Make empty server actions for each of these places, identified in step 4.
+
+6. Add in comments - on what paths you need to revalidate on each server action in step 5.
+
+| Server action | Description   | Paths to revalidate    |
+| :---:   | :---: | :---: |
+| Create topic | Form in a modal open on homepage, on submit closes modal and stays on homepage   | "/"   |
+| Create post | Form opens on a modal on topic show page, on submit closes modal and stays on topic page, needs to show updates on topic page and homepage, but on homepage we may choose to revalidate at interval |  "/topics/[slug]", but on homepage - revalidate cache each 5min   |
+| Create post comment | form opens on a post page, on submit expects to display update on post page  |   "/topics/[slug]/posts/[postId]"   |
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
