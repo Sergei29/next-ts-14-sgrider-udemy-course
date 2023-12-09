@@ -126,6 +126,11 @@ const CreateForm = () => {
 - at BUILD time: NEXT finds all provided routes in your dynamic segment from `generateStaticparams()`, and at BUILD time renders and caches each of them.
 - when user requests one of these dynamic routes - NEXT serves these cached pages
 
+## Authentication with Next-auth
+
+Federated login flow:
+
+![next auth flow](./next_auth_federated_login_flow.png)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
