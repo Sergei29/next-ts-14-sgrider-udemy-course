@@ -8,7 +8,19 @@ interface IProps {}
 const Profile = ({}: IProps): JSX.Element => {
   const { data: session } = useSession()
 
-  return <div>{session ? <div>Logged in</div> : <div>Logged out</div>}</div>
+  return (
+    <div>
+      {session?.user ? (
+        <div>
+          <h2>Hi {session.user.name}! </h2>
+        </div>
+      ) : (
+        <div>
+          <h2>Hi Guest! </h2>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default Profile

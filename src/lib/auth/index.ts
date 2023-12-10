@@ -37,6 +37,7 @@ export const nextAuthConfig: NextAuthConfig = {
       return session
     },
   },
+  trustHost: true,
 }
 
 export const {
