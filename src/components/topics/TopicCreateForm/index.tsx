@@ -1,3 +1,6 @@
+'use client'
+
+import { useFormState } from 'react-dom'
 import {
   Button,
   Input,
@@ -8,20 +11,21 @@ import {
 } from '@nextui-org/react'
 
 import * as actions from '@/lib/serverActions'
+import { IFormStateCreateTopic } from '@/types'
 
-interface IProps {}
+const TopicCreateForm = (): JSX.Element => {
+  const [formState, formAction] = useFormState<IFormStateCreateTopic, FormData>(
+    actions.createTopic,
+    {},
+  )
 
-const TopicCreateForm = ({}: IProps): JSX.Element => {
   return (
     <Popover placement="left">
       <PopoverTrigger>
         <Button color="primary">Create a Topic</Button>
       </PopoverTrigger>
       <PopoverContent>
-        <form
-          action={actions.createTopic}
-          className="p-4 w-80 flex flex-col gap-4"
-        >
+        <form action={formAction} className="p-4 w-80 flex flex-col gap-4">
           <h3 className="text-lg">Create a Topic</h3>
           <fieldset className="flex flex-col gap-4">
             <Input
@@ -29,12 +33,21 @@ const TopicCreateForm = ({}: IProps): JSX.Element => {
               labelPlacement="outside"
               placeholder="Name"
               name="name"
+              isInvalid={!!formState.errors?.name}
+              errorMessage={
+                !!formState.errors?.name && formState.errors.name.join(', ')
+              }
             />
             <Textarea
               label="Description"
               labelPlacement="outside"
               placeholder="Describe your topic"
               name="description"
+              isInvalid={!!formState.errors?.description}
+              errorMessage={
+                !!formState.errors?.description &&
+                formState.errors.description.join(', ')
+              }
             />
           </fieldset>
           <Button type="submit" className="w-full">

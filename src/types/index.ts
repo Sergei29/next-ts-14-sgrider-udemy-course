@@ -11,3 +11,10 @@ export interface IPageProps<
 export interface IParentProps {
   children: ReactNode
 }
+
+export interface IFormStateCreateTopic {
+  errors?: {
+    name?: string[]
+    description?: string[]
+  }
+}

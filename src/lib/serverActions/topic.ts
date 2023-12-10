@@ -2,6 +2,7 @@
 
 import { z } from 'zod'
 import { db } from '@/lib/db'
+import { IFormStateCreateTopic } from '@/types'
 
 const createTopicSchema = z.object({
   name: z
@@ -15,7 +16,10 @@ const createTopicSchema = z.object({
     .min(10, { message: 'Must be at least 10 characters long' }),
 })
 
-export const createTopic = async (formData: FormData) => {
+export const createTopic = async (
+  formState: IFormStateCreateTopic,
+  formData: FormData,
+): Promise<IFormStateCreateTopic> => {
   console.log('create Topic action')
   // todo: revalidate homepage
 
@@ -25,6 +29,8 @@ export const createTopic = async (formData: FormData) => {
   })
 
   if (!result.success) {
-    console.log('result.error :>> ', result.error.flatten().fieldErrors)
+    return { errors: result.error.flatten().fieldErrors }
   }
+
+  return {}
 }
