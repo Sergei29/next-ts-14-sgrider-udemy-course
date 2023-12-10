@@ -166,6 +166,133 @@ const paths = {
 | Create post | Form opens on a modal on topic show page, on submit closes modal and stays on topic page, needs to show updates on topic page and homepage, but on homepage we may choose to revalidate at interval |  "/topics/[slug]", but on homepage - revalidate cache each 5min   |
 | Create post comment | form opens on a post page, on submit expects to display update on post page  |   "/topics/[slug]/posts/[postId]"   |
 
+
+## Validation with Zod
+```ts
+'use server'
+
+import { z } from 'zod'
+
+const createTopicSchema = z.object({
+  name: z
+    .string()
+    .min(3)
+    .regex(/^[a-z-]+$/, {
+      message: 'Must be lowercase letters or dashes without spaces',
+    }),
+  description: z
+    .string()
+    .min(10, { message: 'Must be at least 10 characters long' }),
+})
+
+export const createTopic = async (formData: FormData) => {
+  console.log('create Topic action')
+  // todo: revalidate homepage
+
+  const result = createTopicSchema.safeParse({
+    name: formData.get('name'),
+    description: formData.get('description'),
+  })
+
+  if (result.success) {
+    console.log('result.data :>> ', result.data)
+  } else {
+    console.log('result.error :>> ', result.error)
+  }
+}
+```
+
+### schema.safeParse()
+- immediate return is `response: { success:boolean }`
+- IF response.success is `true`, then response.data is the expected payload, ( `{name: string; description string }` in our case )
+- IF response.success is `false`, then response.error is `{ issues: { message: string; code: string; path: string[]; ...other}[]; errors: { message: string; code: string; path: string[]; ...other}[]}`
+
+Example:
+SUCCESS
+```ts
+const result = createTopicSchema.safeParse({
+    name: "hello",
+    description: "this is the description over ten characters long",
+})
+
+console.log(result)
+/**
+ * {
+ *  success: true,
+ *  data: {name: "hello", description: "this is the description over ten characters long" }
+ * }
+*/
+```
+ERROR
+```ts
+const result = createTopicSchema.safeParse({
+    name: "$",
+    description: "a",
+})
+
+console.log(result)
+/**
+ * {
+ *  success: false,
+ *  error: [
+  {
+    "code": "too_small",
+    "minimum": 3,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "String must contain at least 3 character(s)",
+    "path": [
+      "name"
+    ]
+  },
+  {
+    "validation": "regex",
+    "code": "invalid_string",
+    "message": "Must be lowercase letters or dashes without spaces",
+    "path": [
+      "name"
+    ]
+  },
+  {
+    "code": "too_small",
+    "minimum": 10,
+    "type": "string",
+    "inclusive": true,
+    "exact": false,
+    "message": "Must be at least 10 characters long",
+    "path": [
+      "description"
+    ]
+  }
+]
+ * }
+*/
+```
+These errors - are in quite specific format and may need to have some formatting logic to make it readable, BUT
+we can use their provided method to return formatted error messages per each field, like below:
+```ts
+const result = createTopicSchema.safeParse({
+    name: formData.get('name'),
+    description: formData.get('description'),
+  })
+
+if (!result.success) {
+  console.log('fieldErrors :>> ', result.error.flatten().fieldErrors)
+}
+
+/**
+ * fieldErrors :>> {
+  name: [
+    'String must contain at least 3 character(s)',
+    'Must be lowercase letters or dashes without spaces'
+  ],
+  description: [ 'Must be at least 10 characters long' ]
+}
+ * */
+```
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
