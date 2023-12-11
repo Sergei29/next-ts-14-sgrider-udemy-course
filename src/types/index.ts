@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 
+export type { Topic as ITopic } from '@prisma/client'
 export interface IPageProps<
   P = Record<string, string>,
   Q = Record<string, string>,
@@ -16,5 +17,6 @@ export interface IFormStateCreateTopic {
   errors?: {
     name?: string[]
     description?: string[]
+    _form?: string[]
   }
 }

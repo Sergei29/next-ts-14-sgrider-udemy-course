@@ -1,8 +1,20 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
+
+import { IFormStateCreateTopic, ITopic } from '@/types'
+import { paths } from '@/lib/paths'
+import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { IFormStateCreateTopic } from '@/types'
+
+const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) {
+    return error.message
+  }
+  return (error as any).toString()
+}
 
 const createTopicSchema = z.object({
   name: z
@@ -20,8 +32,17 @@ export const createTopic = async (
   formState: IFormStateCreateTopic,
   formData: FormData,
 ): Promise<IFormStateCreateTopic> => {
-  console.log('create Topic action')
   // todo: revalidate homepage
+
+  const session = await auth()
+
+  if (!session || !session.user) {
+    return {
+      errors: {
+        _form: ['To create topic, you must sign in first'],
+      },
+    }
+  }
 
   const result = createTopicSchema.safeParse({
     name: formData.get('name'),
@@ -32,5 +53,23 @@ export const createTopic = async (
     return { errors: result.error.flatten().fieldErrors }
   }
 
-  return {}
+  let topic: ITopic | null = null
+
+  try {
+    topic = await db.topic.create({
+      data: {
+        slug: result.data.name,
+        description: result.data.description,
+      },
+    })
+  } catch (error) {
+    return {
+      errors: {
+        _form: [getErrorMessage(error)],
+      },
+    }
+  }
+
+  revalidatePath('/')
+  redirect(paths.topicShow(topic.slug))
 }

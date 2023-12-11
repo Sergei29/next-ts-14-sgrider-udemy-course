@@ -50,6 +50,13 @@ const TopicCreateForm = (): JSX.Element => {
               }
             />
           </fieldset>
+
+          {formState.errors?._form && (
+            <p className="p-2 bg-red-600 border border-red-800 text-white font-semibold text-center w-full rounded-xl">
+              {formState.errors._form.join(', ')}
+            </p>
+          )}
+
           <Button type="submit" className="w-full">
             Submit
           </Button>
