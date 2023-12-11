@@ -32,8 +32,6 @@ export const createTopic = async (
   formState: IFormStateCreateTopic,
   formData: FormData,
 ): Promise<IFormStateCreateTopic> => {
-  // todo: revalidate homepage
-
   const session = await auth()
 
   if (!session || !session.user) {

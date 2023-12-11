@@ -79,7 +79,7 @@ export const createProfileAction = async (
 ```tsx
 'use client'
 
-import { useFormState } from 'react-dom'
+import { useFormState, useFormStatus } from 'react-dom'
 import { createProfileAction } from '@/lib/serverActions'
 
 const CreateForm = () => {
@@ -292,6 +292,12 @@ if (!result.success) {
  * */
 ```
 
+### Another `react-dom` hook `useFormStatus`
+- `useFormStatus` hook, looks at the `<form />` in the Parent component, from where this hook is called
+- the above meaning, that we cannot call this hook direct from the `<form />` rendering component
+- but we need to call it from its nested child component(s), ( eg. Button or InputGroup )
+
+![useFormStatus diagram](./useFormStatus_hook.png)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

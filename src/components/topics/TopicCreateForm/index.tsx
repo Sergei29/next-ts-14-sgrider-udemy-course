@@ -12,6 +12,7 @@ import {
 
 import * as actions from '@/lib/serverActions'
 import { IFormStateCreateTopic } from '@/types'
+import FormButton from '@/components/common/FormButton'
 
 const TopicCreateForm = (): JSX.Element => {
   const [formState, formAction] = useFormState<IFormStateCreateTopic, FormData>(
@@ -57,9 +58,7 @@ const TopicCreateForm = (): JSX.Element => {
             </p>
           )}
 
-          <Button type="submit" className="w-full">
-            Submit
-          </Button>
+          <FormButton>Submit</FormButton>
         </form>
       </PopoverContent>
     </Popover>
