@@ -5,16 +5,10 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
 import { IFormStateCreateTopic, ITopic } from '@/types'
+import { getErrorMessage } from '@/lib/common'
 import { paths } from '@/lib/paths'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
-
-const getErrorMessage = (error: unknown) => {
-  if (error instanceof Error) {
-    return error.message
-  }
-  return (error as any).toString()
-}
 
 const createTopicSchema = z.object({
   name: z

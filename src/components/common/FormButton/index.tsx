@@ -4,8 +4,6 @@ import React from 'react'
 import { useFormStatus } from 'react-dom'
 import { Button, ButtonProps } from '@nextui-org/react'
 
-interface IProps {}
-
 const FormButton = ({
   children,
   className,

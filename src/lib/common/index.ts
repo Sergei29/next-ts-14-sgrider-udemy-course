@@ -8,3 +8,10 @@ export const wait = (timeout: number, error?: string) =>
       }
     }, timeout)
   })
+
+export const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) {
+    return error.message
+  }
+  return (error as any).toString()
+}
