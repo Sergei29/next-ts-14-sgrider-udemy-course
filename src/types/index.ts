@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
+import type { Comment as IComment, User as IUserDb } from '@prisma/client'
 
+export type { IComment, IUserDb }
 export type { Topic as ITopic } from '@prisma/client'
 export type { Post as IPost } from '@prisma/client'
 export interface IPageProps<
@@ -30,9 +32,22 @@ export interface IFormStateCreatePost {
   }
 }
 
+export interface IFormStateCreateComment {
+  errors?: {
+    content?: string[]
+    _form?: string[]
+  }
+  success?: boolean
+}
+
 export interface IUser {
   id: string
   name?: string | null
   email?: string | null
   image?: string | null
+}
+
+export interface ICommentShow
+  extends Pick<IComment, 'id' | 'parentId' | 'postId' | 'content'> {
+  user: Pick<IUserDb, 'image' | 'name'>
 }
