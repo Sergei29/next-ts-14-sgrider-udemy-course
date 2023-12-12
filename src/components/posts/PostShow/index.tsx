@@ -1,10 +1,25 @@
-import { IPost } from '@/types'
+import { notFound } from 'next/navigation'
+
+import { db } from '@/lib/db'
 
 interface IProps {
-  post: Pick<IPost, 'title' | 'content'>
+  postId: string
 }
 
-const PostShow = ({ post }: IProps): JSX.Element => {
+const PostShow = async ({ postId }: IProps) => {
+  const post = await db.post.findUnique({
+    where: {
+      id: postId,
+    },
+    select: {
+      title: true,
+      content: true,
+    },
+  })
+
+  if (!post) {
+    return notFound()
+  }
   return (
     <div className="m-4">
       <h1 className="text-2xl font-bold my-2">{post.title}</h1>

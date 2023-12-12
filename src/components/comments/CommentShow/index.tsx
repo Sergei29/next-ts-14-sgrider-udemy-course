@@ -1,23 +1,28 @@
 import Image from 'next/image'
-import { Button } from '@nextui-org/react'
 
 import CommentCreateForm from '@/components/comments/CommentCreateForm'
-import { ICommentShow } from '@/types'
+import { ICommentWithAuthor } from '@/types'
 
 interface IProps {
   commentId: string
-  comments: ICommentShow[]
+  comments: ICommentWithAuthor[]
 }
 
-// TODO: Get a list of comments
-const CommentShow = async ({ commentId, comments }: IProps) => {
+const CommentShow = ({ commentId, comments }: IProps) => {
   const comment = comments.find((current) => current.id === commentId)
 
   if (!comment) {
     return null
   }
 
+  /**
+   * @description all comments are flattened to one level in the list, some of them are nested one inside another
+   * indicated by 'parentId` value pointing to the comment ID. So here we select all
+   * comments immediate children to this current comment.
+   * then recurse to next level deep
+   */
   const children = comments.filter((current) => current.parentId === commentId)
+
   const renderedChildren = children.map((child) => {
     return (
       <CommentShow key={child.id} commentId={child.id} comments={comments} />

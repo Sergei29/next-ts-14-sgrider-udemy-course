@@ -1,40 +1,14 @@
 import Link from 'next/link'
 
-import { IPost, IUserDb, ITopic } from '@/types'
+import { IPostWithDetails } from '@/types'
 import { paths } from '@/lib/paths'
-import { db } from '@/lib/db'
 
 interface IProps {
-  slug: string
+  fetchPosts: () => Promise<IPostWithDetails[]>
 }
 
-const PostsList = async ({ slug }: IProps) => {
-  const posts = await db.post.findMany({
-    where: {
-      topic: {
-        slug,
-      },
-    },
-    select: {
-      id: true,
-      title: true,
-      user: {
-        select: {
-          name: true,
-        },
-      },
-      topic: {
-        select: {
-          slug: true,
-        },
-      },
-      _count: {
-        select: {
-          comments: true,
-        },
-      },
-    },
-  })
+const PostsList = async ({ fetchPosts }: IProps) => {
+  const posts = await fetchPosts()
 
   const renderedPosts = posts.map((post) => {
     const topicSlug = post.topic.slug

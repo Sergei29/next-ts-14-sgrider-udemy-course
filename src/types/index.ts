@@ -1,9 +1,12 @@
 import { ReactNode } from 'react'
-import type { Comment as IComment, User as IUserDb } from '@prisma/client'
+import type {
+  Comment as IComment,
+  User as IUserDb,
+  Topic as ITopic,
+  Post as IPost,
+} from '@prisma/client'
 
-export type { IComment, IUserDb }
-export type { Topic as ITopic } from '@prisma/client'
-export type { Post as IPost } from '@prisma/client'
+export type { IComment, IUserDb, ITopic, IPost }
 export interface IPageProps<
   P = Record<string, string>,
   Q = Record<string, string>,
@@ -47,7 +50,20 @@ export interface IUser {
   image?: string | null
 }
 
-export interface ICommentShow
-  extends Pick<IComment, 'id' | 'parentId' | 'postId' | 'content'> {
-  user: Pick<IUserDb, 'image' | 'name'>
+export interface IPostWithDetails {
+  title: string
+  id: string
+  user: Pick<IUserDb, 'name'>
+  topic: Pick<ITopic, 'slug'>
+  _count: {
+    comments: number
+  }
+}
+
+export interface ICommentWithAuthor {
+  id: string
+  content: string
+  user: Pick<IUserDb, 'name' | 'image'>
+  postId: string
+  parentId: string | null
 }

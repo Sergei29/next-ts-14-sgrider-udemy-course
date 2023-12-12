@@ -299,6 +299,77 @@ if (!result.success) {
 
 ![useFormStatus diagram](./useFormStatus_hook.png)
 
+
+### Recursive Component - Comments list
+There is a flat list of comments, where some comments can be nested inside the other by indicating the `parentId` to their parent comment ID,
+those that have `parentId` to `null` - are the top-level comments. So the idea is to walk depth-first, meaning that 
+1. we select the top-level comments first and render them iteratively 
+eg. `topLevelList.map(current=><Comment commentId={current.id} comments={allComments} />)`
+2. each comment will find its children and render them iteratively and so on.
+
+![Recursive component diagram](./recursive_list_component.png)
+
+```tsx
+const CommentShow = ({ commentId, comments }: IProps) => {
+  const comment = comments.find((current) => current.id === commentId)
+
+  if (!comment) return null
+
+  const children = comments.filter((current) => current.parentId === commentId)
+  const renderedChildren = children.map((child) => {
+    return (
+      <CommentShow key={child.id} commentId={child.id} comments={comments} />
+    )
+  })
+
+  return (
+    <div className="p-4 border mt-2 mb-1">
+      <div className="flex gap-3">
+        <Image
+          src={comment.user.image || ''}
+          alt="user image"
+          width={40}
+          height={40}
+          className="w-10 h-10 rounded-full"
+        />
+        <div className="flex-1 space-y-3">
+          <p className="text-sm font-medium text-gray-500">
+            {comment.user.name}
+          </p>
+          <p className="text-gray-900">{comment.content}</p>
+
+          <CommentCreateForm postId={comment.postId} parentId={comment.id} />
+        </div>
+      </div>
+      <div className="pl-4">{renderedChildren}</div>
+    </div>
+  )
+}
+```
+
+And the list itself:
+
+```tsx
+const CommentsList = async ({ comments }: IProps) => {
+  const topLevelComments = comments.filter(
+    (comment) => comment.parentId === null,
+  )
+
+  return (
+    <div className="space-y-3">
+      <h1 className="text-lg font-bold">All {comments.length} comments</h1>
+      {topLevelComments.map((comment) => (
+          <CommentShow
+            key={comment.id}
+            commentId={comment.id}
+            comments={comments}
+          />
+      ))}
+    </div>
+  )
+}
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

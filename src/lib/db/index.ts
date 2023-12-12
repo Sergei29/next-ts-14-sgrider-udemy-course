@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client'
+export * from './comments'
+export * from './posts'
 
 const isServer = () => typeof window === 'undefined'
 

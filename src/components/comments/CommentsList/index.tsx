@@ -1,15 +1,21 @@
 import CommentShow from '@/components/comments/CommentShow'
-import { ICommentShow } from '@/types'
+import { ICommentWithAuthor } from '@/types'
 
 interface IProps {
-  comments: ICommentShow[]
+  fetchComments: () => Promise<ICommentWithAuthor[]>
 }
 
-const CommentsList = async ({ comments }: IProps) => {
+const CommentsList = async ({ fetchComments }: IProps) => {
+  const comments = await fetchComments()
+
   const topLevelComments = comments.filter(
     (comment) => comment.parentId === null,
   )
 
+  /**
+   * @description all comments are flattened to one level in the list, some of them are nested one inside another
+   * indicated by 'parentId` value pointing to the comment ID.
+   */
   const renderedComments = topLevelComments.map((comment) => {
     return (
       <CommentShow
