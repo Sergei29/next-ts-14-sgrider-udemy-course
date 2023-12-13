@@ -3,6 +3,7 @@
 - `corp-1`, static pages, header navbar, hero section on each page
 - `snippets-app-2`, save code snippets app, CRUD for code snippets, PRISMA, SQLITE
 - `auth-prisma-reddit-clone-3`, clone ap for reddit, authentication with Next-auth, PRISMA, SQLITE, NextUI components, range of CRUD for topics, posts and comments, user based.
+- `auth-prisma-reddit-clone-4-component-streaming` - same app, with added component streaming and client side search feature.
 
 ### Server actions in Server forms
 - server action passed to server form has default type of: `formAction: (data: FormData) => Promise<void>`

@@ -1,6 +1,8 @@
 import CommentShow from '@/components/comments/CommentShow'
 import { getCommentsByPostId } from '@/lib/db'
 
+export { CommentsListSkeleton } from './CommentsListSkeleton'
+
 interface IProps {
   postId: string
 }

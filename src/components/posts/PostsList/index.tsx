@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { IPostWithDetails } from '@/types'
 import { paths } from '@/lib/paths'
 
+export { PostsListSkeleton } from './PostsListSkeleton'
+
 interface IProps {
   fetchPosts: () => Promise<IPostWithDetails[]>
 }

@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation'
 
 import { db } from '@/lib/db'
 
+export { PostShowSkeleton } from './PostShowSkeleton'
+
 interface IProps {
   postId: string
 }

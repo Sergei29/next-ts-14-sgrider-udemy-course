@@ -7,6 +7,7 @@ const SELECT_FIELDS = {
   user: {
     select: {
       name: true,
+      image: true,
     },
   },
   topic: {

@@ -1,8 +1,11 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 
+import CommentsList, {
+  CommentsListSkeleton,
+} from '@/components/comments/CommentsList'
+import PostShow, { PostShowSkeleton } from '@/components/posts/PostShow'
 import CommentCreateForm from '@/components/comments/CommentCreateForm'
-import CommentsList from '@/components/comments/CommentsList'
-import PostShow from '@/components/posts/PostShow'
 import { paths } from '@/lib/paths'
 import { IPageProps } from '@/types'
 
@@ -17,9 +20,13 @@ const PostPage = async ({
       >
         {'< '}Back to {params.slug}
       </Link>
-      <PostShow postId={params.postId} />
+      <Suspense fallback={<PostShowSkeleton />}>
+        <PostShow postId={params.postId} />
+      </Suspense>
       <CommentCreateForm postId={params.postId} startOpen />
-      <CommentsList postId={params.postId} />
+      <Suspense fallback={<CommentsListSkeleton />}>
+        <CommentsList postId={params.postId} />
+      </Suspense>
     </div>
   )
 }

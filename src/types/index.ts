@@ -53,7 +53,7 @@ export interface IUser {
 export interface IPostWithDetails {
   title: string
   id: string
-  user: Pick<IUserDb, 'name'>
+  user: Pick<IUserDb, 'name' | 'image'>
   topic: Pick<ITopic, 'slug'>
   _count: {
     comments: number
