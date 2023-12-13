@@ -3,7 +3,6 @@ import Link from 'next/link'
 import CommentCreateForm from '@/components/comments/CommentCreateForm'
 import CommentsList from '@/components/comments/CommentsList'
 import PostShow from '@/components/posts/PostShow'
-import { getCommentsByPostId } from '@/lib/db'
 import { paths } from '@/lib/paths'
 import { IPageProps } from '@/types'
 
@@ -20,9 +19,7 @@ const PostPage = async ({
       </Link>
       <PostShow postId={params.postId} />
       <CommentCreateForm postId={params.postId} startOpen />
-      <CommentsList
-        fetchComments={getCommentsByPostId.bind(null, params.postId)}
-      />
+      <CommentsList postId={params.postId} />
     </div>
   )
 }

@@ -1,14 +1,15 @@
 import Image from 'next/image'
 
 import CommentCreateForm from '@/components/comments/CommentCreateForm'
-import { ICommentWithAuthor } from '@/types'
+import { getCommentsByPostId } from '@/lib/db'
 
 interface IProps {
   commentId: string
-  comments: ICommentWithAuthor[]
+  postId: string
 }
 
-const CommentShow = ({ commentId, comments }: IProps) => {
+const CommentShow = async ({ commentId, postId }: IProps) => {
+  const comments = await getCommentsByPostId(postId)
   const comment = comments.find((current) => current.id === commentId)
 
   if (!comment) {
@@ -24,9 +25,7 @@ const CommentShow = ({ commentId, comments }: IProps) => {
   const children = comments.filter((current) => current.parentId === commentId)
 
   const renderedChildren = children.map((child) => {
-    return (
-      <CommentShow key={child.id} commentId={child.id} comments={comments} />
-    )
+    return <CommentShow key={child.id} commentId={child.id} postId={postId} />
   })
 
   return (

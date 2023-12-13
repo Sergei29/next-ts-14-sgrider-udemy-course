@@ -370,6 +370,38 @@ const CommentsList = async ({ comments }: IProps) => {
 }
 ```
 
+### Cache memoization
+- automatically can be used with the built-in `fetch` function
+- can be used with other functions ( like DB queries ), by using the `cache` function. ( https://nextjs.org/docs/app/building-your-application/caching#react-cache-function )
+
+```ts
+import { cache } from 'react'
+import { db } from '.'
+
+export const getCommentsByPostId =  cache(
+  (postId: string): Promise<ICommentWithAuthor[]> => {
+    return db.comment.findMany({
+      where: {
+        postId,
+      },
+      select: {
+        id: true,
+        content: true,
+        postId: true,
+        parentId: true,
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+    })
+  },
+)
+
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

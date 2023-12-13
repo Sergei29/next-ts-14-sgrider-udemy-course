@@ -1,12 +1,12 @@
 import CommentShow from '@/components/comments/CommentShow'
-import { ICommentWithAuthor } from '@/types'
+import { getCommentsByPostId } from '@/lib/db'
 
 interface IProps {
-  fetchComments: () => Promise<ICommentWithAuthor[]>
+  postId: string
 }
 
-const CommentsList = async ({ fetchComments }: IProps) => {
-  const comments = await fetchComments()
+const CommentsList = async ({ postId }: IProps) => {
+  const comments = await getCommentsByPostId(postId)
 
   const topLevelComments = comments.filter(
     (comment) => comment.parentId === null,
@@ -18,11 +18,7 @@ const CommentsList = async ({ fetchComments }: IProps) => {
    */
   const renderedComments = topLevelComments.map((comment) => {
     return (
-      <CommentShow
-        key={comment.id}
-        commentId={comment.id}
-        comments={comments}
-      />
+      <CommentShow key={comment.id} commentId={comment.id} postId={postId} />
     )
   })
 
