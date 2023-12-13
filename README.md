@@ -374,7 +374,7 @@ const CommentsList = async ({ comments }: IProps) => {
 
 ### Cache memoization
 - automatically can be used with the built-in `fetch` function
-- can be used with other functions ( like DB queries ), by using the `cache` function. ( https://nextjs.org/docs/app/building-your-application/caching#react-cache-function )
+- can be used with other functions ( like DB queries ), by using the `cache` function. ( https://nextjs.org/docs/app/building-your-application/caching#react-cache-function ), and next caching with tag: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
 
 ```ts
 import { cache } from 'react'
