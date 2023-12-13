@@ -403,6 +403,12 @@ export const getCommentsByPostId =  cache(
 
 ```
 
+### Search functionality
+- the routes using search params - are all dynamic
+- can acces search query params by page `props.searchParams`
+- or at client component by calling `useSearchParams` from `next/navigation`
+- the client component using `useSearchParams`, better to be wrapped within the `Suspense` or you will get a strange warning at build time.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

@@ -7,6 +7,7 @@ import {
   Input,
 } from '@nextui-org/react'
 
+import SearchInput from '@/components/search/SearchInput'
 import HeaderAuth from '@/components/HeaderAuth'
 import { paths } from '@/lib/paths'
 
@@ -20,7 +21,7 @@ const Header = () => {
       </NavbarBrand>
       <NavbarContent justify="center">
         <NavbarItem>
-          <Input type="text" />
+          <SearchInput />
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
