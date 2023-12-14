@@ -56,3 +56,51 @@ export const getTopPosts = (): Promise<IPostWithDetails[]> =>
       ...SELECT_FIELDS,
     },
   })
+
+export const getPostsBySearchTerm = (
+  term: string,
+): Promise<IPostWithDetails[]> => {
+  const keywords = term.split(' ')
+
+  return db.post.findMany({
+    where: {
+      OR: [
+        {
+          content: {
+            contains: term,
+          },
+        },
+        {
+          content: {
+            contains: keywords[0],
+          },
+        },
+        {
+          title: {
+            contains: term,
+          },
+        },
+        {
+          title: {
+            contains: keywords[0],
+          },
+        },
+        {
+          title: {
+            in: keywords,
+          },
+        },
+        {
+          topic: {
+            slug: {
+              in: keywords,
+            },
+          },
+        },
+      ],
+    },
+    select: {
+      ...SELECT_FIELDS,
+    },
+  })
+}

@@ -1,6 +1,5 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Input } from '@nextui-org/react'
 
